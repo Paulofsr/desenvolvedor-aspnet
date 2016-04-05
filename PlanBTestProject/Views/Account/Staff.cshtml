@@ -1,0 +1,79 @@
+﻿
+@model IEnumerable<PlanBTestProject.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Usuários";
+}
+
+<h2>Usuários</h2>
+
+<p>
+    @Html.ActionLink("Novo Usuário", "RegisterStaff")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Login
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            <a onclick="return MySkill('@item.Id');">Habilidades</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+<div id="divSkill" style="display: none; " title="Habilidades" >
+    <div class="skill">
+
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+<script type="text/javascript">
+        function MySkill(userId)
+        {
+            //loading();
+            $('.skill').empty();
+            $.post("EditSkillUser?"
+                        + "userId=" + userId)
+                .done(function (data) {
+                    $('.skill').html(data);
+                    //unloading();
+                });
+                //.error(function (data) { unloading(); })
+                //.abort(function (data) { unloading(); });
+            $('#divSkill').dialog({ title: 'Habilidades', modal: true, show: 'fade', hide: 'fade', width: 700, draggable: false, resizable: false });
+            return false;
+        }
+
+        function ChangeSkill(userId, skillId, check)
+        {
+            $.post("AddSkillToUser?" + "id=" + skillId + "&userId=" + userId + "&add=" + check.checked );
+        }
+</script>
+}

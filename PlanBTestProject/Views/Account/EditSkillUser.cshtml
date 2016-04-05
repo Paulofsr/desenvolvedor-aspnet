@@ -1,0 +1,16 @@
+﻿@using PlanBTestProject.Models;
+@model SkillUserViewModel
+@{ 
+    Layout = null;
+}
+<h2>@Model.User.UserName</h2>
+<hr />
+<div class="row" style="margin-left:10px; margin-right:10px;">
+    @foreach (SkillUser skill in Model.Skills)
+    {
+        <div class="col-md-3" style="margin-bottom: 25px;">
+            <input type="checkbox" id="@skill.Skill.ID" value="@skill.Skill.Name" @skill.Checked onchange="return ChangeSkill('@Model.User.Id', '@skill.Skill.ID', this);" />@skill.Skill.Name
+        </div>
+    }
+</div>
+ 
